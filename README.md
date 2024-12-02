@@ -17,7 +17,7 @@ I work in Ruby every day for the day-job, so it's what I'm most familiar with. T
 Each day’s solutions are organized into folders with a single Ruby file for the day, while all spec files are located in the root-level spec/ directory:
 
 ```plaintext
-+ Day-XX/
++ day_XX/
 -   day_XX.rb       # Ruby solution file for Day XX
 -   input.txt       # Input data for the puzzles (Not in the repo, but expected for local runs)
 + spec/
