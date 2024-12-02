@@ -18,22 +18,25 @@ Each day’s solutions are organized into folders with a single Ruby file for th
 
 ```plaintext
 + day_XX/
--   day_XX.rb       # Ruby solution file for Day XX
--   input.txt       # Input data for the puzzles (Not in the repo, but expected for local runs)
+-   day_XX.rb           # Ruby solution file for Day XX
++ inputs/
+-   day_XX.txt          # Input data for the puzzles (Not in the repo, but expected for local runs)
 + spec/
--   day_XX_spec.rb  # RSpec tests for Day XX
--   spec_helper.rb  # RSpec configuration file
+-   day_XX_spec.rb      # RSpec tests for Day XX
+-   spec_helper.rb      # RSpec configuration file
++ utilities/
+-   advent_helpers.rb   # Helper methods for Advent of Code solutions
 ```
 
 ## Input Data
 
-Puzzle input files (input.txt) are not included in this repository and are part of the .gitignore. Place your input file in the corresponding Day-XX/ folder when running the scripts.
+Puzzle input files (day_XX.txt) are not included in this repository and are part of the .gitignore. Place your input file in the corresponding inputs/ folder when running the scripts.
 
 ## Spec Tests
 
 RSpec tests for all days are located in the spec/ directory. Each day’s spec file corresponds to its solution file:
 
-- `spec/day_XX_spec.rb`: Contains tests for the logic in `Day-XX/day_XX.rb`.
+- `spec/day_XX_spec.rb`: Contains tests for the logic in `day_XX/day_XX.rb`.
 
 ## YARD Documentation
 
