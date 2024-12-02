@@ -47,11 +47,12 @@ class HistorianHysteria
     @similarity_scores.sum
   end
 
-  # Loads the input file
-  # @param input_file [String] The path to the input file.
+  # Loads the input file, and adds each line to the arrays.
+  #
+  # @param input_file [String] The name of the input file. Expected to be in the same directory as this file.
   # @return [nil]
   def load_input(input_file)
-    file = File.open(input_file, "r")
+    file = File.open(File.expand_path(input_file, __dir__), "r")
     file.readlines.each do |line|
       if line.length > 2
         split_line = line.split(" ")
@@ -75,7 +76,7 @@ end
 # Example Usage
 if __FILE__ == $0
   solver = HistorianHysteria.new
-  solver.load_input(File.expand_path('input.txt', __dir__))
+  solver.load_input('input.txt')
   puts "The total distance is: #{solver.get_total_distance}"
   puts "The similarity score is: #{solver.get_similarity_score}"
 end
