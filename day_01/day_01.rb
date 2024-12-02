@@ -1,3 +1,4 @@
+require_relative '../utilities/advent_helpers'
 # Day 1 - Historian Hysteria
 #
 # This class provides methods to calculate distances and similarity scores between elements of two arrays.
@@ -52,13 +53,10 @@ class HistorianHysteria
   # @param input_file [String] The name of the input file. Expected to be in the same directory as this file.
   # @return [nil]
   def load_input(input_file)
-    file = File.open(File.expand_path(input_file, __dir__), "r")
-    file.readlines.each do |line|
-      if line.length > 2
-        split_line = line.split(" ")
-        @array_1 << split_line[0].to_i
-        @array_2 << split_line[1].to_i
-      end
+    AdventHelpers.load_file_and_do(input_file) do |line|
+      split_line = line.split(" ")
+      @array_1 << split_line[0].to_i
+      @array_2 << split_line[1].to_i
     end
   end
 
@@ -76,7 +74,7 @@ end
 # Example Usage
 if __FILE__ == $0
   solver = HistorianHysteria.new
-  solver.load_input('input.txt')
+  solver.load_input('day_01.txt')
   puts "The total distance is: #{solver.get_total_distance}"
   puts "The similarity score is: #{solver.get_similarity_score}"
 end

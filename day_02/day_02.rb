@@ -1,3 +1,4 @@
+require_relative '../utilities/advent_helpers'
 # Day 2 - Red Nosed Reports
 #
 # This class provides methods to inspect reports and determine if they are safe or unsafe.
@@ -103,17 +104,11 @@ class RedNosedReports
   # @return [nil]
   def load_input(input_file)
     @reports = []
-    file = File.open(File.expand_path(input_file, __dir__), "r")
-    file.readlines.each do |line|
-      if line.length > 2
-        split_line = line.split(" ")
-        report = []
-        split_line.each do |number|
-          report << number.to_i
-        end
-        add_report(report)
-      end
+    AdventHelpers.load_file_and_do(input_file) do |line|
+      report = line.split.map(&:to_i)
+      add_report(report)
     end
+
   end
 
 end
@@ -121,7 +116,7 @@ end
 # Example Usage
 if __FILE__ == $0
   red_nosed_reports = RedNosedReports.new
-  red_nosed_reports.load_input("input.txt")
+  red_nosed_reports.load_input("day_02.txt")
   red_nosed_reports.load_initial_reports
   red_nosed_reports.report_safe_report_count
   red_nosed_reports.dampen_unsafe_reports
