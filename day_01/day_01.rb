@@ -50,7 +50,7 @@ class HistorianHysteria
 
   # Loads the input file, and adds each line to the arrays.
   #
-  # @param input_file [String] The name of the input file. Expected to be in the same directory as this file.
+  # @param input_file [String] The name of the input file. Expected to be in the inputs directory.
   # @return [nil]
   def load_input(input_file)
     AdventHelpers.load_file_and_do(input_file) do |line|

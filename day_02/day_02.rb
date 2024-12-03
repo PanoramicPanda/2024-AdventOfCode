@@ -100,7 +100,7 @@ class RedNosedReports
 
   # Loads the input file, and adds each report to the reports array.
   #
-  # @param input_file [String] The name of the input file. Expected to be in the same directory as this file.
+  # @param input_file [String] The name of the input file. Expected to be in the inputs directory.
   # @return [nil]
   def load_input(input_file)
     @reports = []
@@ -108,7 +108,6 @@ class RedNosedReports
       report = line.split.map(&:to_i)
       add_report(report)
     end
-
   end
 
 end
