@@ -44,10 +44,8 @@ class MullItOver
     @enabled = true if @enabled.nil?
     memory.scan(/(mul\(\d{1,3},\d{1,3}\))|(do\(\))|(don't\(\))/) do |mul, do_mul, dont_mul|
       if do_mul
-        puts 'enabled'
         @enabled = true
       elsif dont_mul
-        puts '---disabled---'
         @enabled = false
       end
       add_mul(mul) if @enabled && mul
