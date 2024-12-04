@@ -18,6 +18,10 @@ RSpec.describe CeresSearch do
     expect(solver.count_of_string('XMAS')).to eq(18)
   end
 
+  it 'flattens the x combos of the word "MAS"' do
+    expect(solver.flatten_x_combos('MAS')).to eq(['MASSAM', 'SAMMAS', 'MASMAS', 'SAMSAM'])
+  end
+
   it 'can find 9 instances of an X pattern of the word "MAS"' do
     expect(solver.count_of_x_pattern('MAS')).to eq(9)
   end
