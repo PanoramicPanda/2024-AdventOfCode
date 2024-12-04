@@ -1,4 +1,4 @@
-require_relative '../day_01/day_01'
+require_relative '../puzzles/day_01'
 
 RSpec.describe HistorianHysteria do
   solver = HistorianHysteria.new

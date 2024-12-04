@@ -14,13 +14,13 @@ I work in Ruby every day for the day-job, so it's what I'm most familiar with. T
 
 ## Repository Structure
 
-Each day’s solutions are organized into folders with a single Ruby file for the day, while all spec files are located in the root-level spec/ directory:
+Each day’s solutions are in the root-level puzzles/ directory with a single Ruby file for each day, while all spec files are located in the root-level spec/ directory:
 
 ```plaintext
-+ day_XX/
--   day_XX.rb           # Ruby solution file for Day XX
 + inputs/
 -   day_XX.txt          # Input data for the puzzles (Not in the repo, but expected for local runs)
++ puzzles/
+-   day_XX.rb           # Ruby solution file for Day XX
 + spec/
 -   day_XX_spec.rb      # RSpec tests for Day XX
 -   spec_helper.rb      # RSpec configuration file

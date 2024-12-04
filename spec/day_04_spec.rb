@@ -1,5 +1,4 @@
-require_relative '../day_04/day_04'
-
+require_relative '../puzzles/day_04'
 
 RSpec.describe CeresSearch do
   solver = CeresSearch.new

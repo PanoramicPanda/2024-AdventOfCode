@@ -1,4 +1,4 @@
-require_relative '../day_02/day_02'
+require_relative '../puzzles/day_02'
 
 RSpec.describe RedNosedReports do
   solver = RedNosedReports.new
