@@ -150,9 +150,7 @@ class CeresSearch
       row.each_with_index do |char, col_index|
         next if @grid[row_index][col_index] != string[1]
         x_combos = flatten_x_combos(string)
-        x_combos.each do |combo|
-          count += 1 if grab_flat_x_at_letter(row_index, col_index) == combo
-        end
+        count += 1 if x_combos.include?(grab_flat_x_at_letter(row_index, col_index))
       end
     end
     count
