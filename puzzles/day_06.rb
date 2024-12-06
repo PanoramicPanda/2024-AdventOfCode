@@ -4,7 +4,7 @@ require_relative '../utilities/advent_helpers'
 #
 # Tracks the movement of a guard through a map, so we know how many spots they visited before they left.
 class GuardGallivant
-  attr_reader :guard_positions
+  attr_reader :guard_positions, :unique_positions, :loop_locations
 
   # Initializes the guard tracker.
   def initialize
@@ -12,6 +12,8 @@ class GuardGallivant
     @original_map = []
     @guard_facing = '^'
     @guard_positions = []
+    @unique_positions = []
+    @loop_locations = []
   end
 
   # Adds a row to the map, splitting it into individual characters.
@@ -51,18 +53,25 @@ class GuardGallivant
   #
   # @return [Array<Integer>] The guard's location as a pair of coordinates.
   def get_guard_location
-    guard_location = []
+    guard_location = nil
     @map.each_with_index do |row, row_index|
       row.each_with_index do |char, col_index|
-        if char == "^" || char == "v" || char == "<" || char == ">"
+        if %w[^ v < >].include?(char)
           guard_location = [row_index, col_index]
-          log_guard_position(guard_location)
           @guard_facing = char
+          break
         end
       end
+      break if guard_location
     end
+
+    unless guard_location
+      raise "Guard location not initialized. Ensure the map contains a guard symbol (^, v, <, >)."
+    end
+
     guard_location
   end
+
 
   # Resets the map to its original state.
   # Also resets the guard's position list and facing direction.
@@ -70,7 +79,6 @@ class GuardGallivant
   # @return [nil]
   def reset_map
     @map = @original_map.map(&:dup)
-    @guard_positions = []
     @guard_facing = '^'
   end
 
@@ -79,8 +87,8 @@ class GuardGallivant
   # @param position [Array<Integer>] The position to check.
   #
   # @return [nil]
-  def is_previous_position?(position)
-    @guard_positions.include?(position)
+  def is_previous_unique_position?(position)
+    @unique_positions.include?(position)
   end
 
   # Logs the guard's current position.
@@ -89,7 +97,11 @@ class GuardGallivant
   #
   # @return [nil]
   def log_guard_position(position)
-    @guard_positions << position unless @guard_positions.include?(position)
+    facing = @guard_facing
+    unless @guard_positions.any? { |pos, face| pos == position && face == facing }
+      @guard_positions << [position, facing]
+    end
+    @unique_positions << position unless @unique_positions.include?(position)
   end
 
   # Uses @guard_facing to determine the current direction.
@@ -118,9 +130,11 @@ class GuardGallivant
   # @return [Array<Integer>, String] The tile the guard is facing.
   def get_guard_target(guard_location)
     target = guard_target_coordinates(guard_location)
+    return 'Escape' if target.empty? # Treat invalid target as escape
     return 'Escape' if target[0] < 0 || target[0] >= @map.length || target[1] < 0 || target[1] >= @map[0].length
     @map[target[0]][target[1]]
   end
+
 
   # Calculates the coordinates of the tile the guard is facing.
   # Adds the guard's facing direction to their current location.
@@ -129,9 +143,14 @@ class GuardGallivant
   #
   # @return [Array<Integer>] The coordinates of the tile the guard is facing.
   def guard_target_coordinates(guard_location)
+    return [] unless guard_location # Return empty array if location is nil
+
     guard_facing = get_guard_facing
+    return [] unless guard_facing # Return empty array if facing is nil
+
     [guard_location[0] + guard_facing[0], guard_location[1] + guard_facing[1]]
   end
+
 
   # Moves the guard from one position to another.
   # Changes the old position to a '.' and the new position to the guard's facing direction.
@@ -140,7 +159,7 @@ class GuardGallivant
   # @param new_position [Array<Integer>] The guard's new location.
   # @param facing [String] The direction the guard is facing.
   #
-  # @return [Array<Array<String>>] The updated map.
+  # @return [nil]
   def move_guard(old_position, new_position, facing)
     @map[old_position[0]][old_position[1]] = '.'
     @map[new_position[0]][new_position[1]] = facing
@@ -161,12 +180,15 @@ class GuardGallivant
     until target == 'Escape'
       case target
       when '#'
+        log_guard_position(location)
         turn_right
+        log_guard_position(location)
         target = get_guard_target(location)
       when '.'
         new_location = guard_target_coordinates(location)
         move_guard(location, new_location, @guard_facing)
         location = get_guard_location
+        log_guard_position(location)
         target = get_guard_target(location)
       else
         puts 'Escaped!'
@@ -194,6 +216,72 @@ class GuardGallivant
     @original_map = @map.map(&:dup)
   end
 
+  # Detects infinite loops in the guard's path by brute-forcing obstacles
+  #
+  # @return [nil]
+  def detect_infinite_loops
+    @guard_positions.each_with_index do |(position, facing), index|
+      puts "Running Loop Simulation #{index + 1} of #{@guard_positions.length}"
+      next_position = @guard_positions[index + 1]&.first
+
+      # Skip if this is the last position or next position is nil
+      next unless next_position
+
+      # Reset map and place an obstacle at the next position
+      reset_map
+      place_obstacle(next_position)
+
+      # Simulate guard movement and check for loops
+      if simulate_guard_path
+        # Guard escaped, no loop
+        next
+      else
+        # Guard entered a loop
+        @loop_locations << next_position unless @loop_locations.include?(next_position)
+      end
+    end
+  end
+
+  # Places an obstacle on the map at the given coordinates
+  #
+  # @param position [Array<Integer>] The coordinates where the obstacle is placed
+  #
+  # @return [nil]
+  def place_obstacle(position)
+    @map[position[0]][position[1]] = '#' unless @map[position[0]][position[1]] == '^'
+  end
+
+  # Simulates the guard's path on the current map
+  #
+  # @return [Boolean] True if the guard escapes, false if they enter a loop
+  def simulate_guard_path
+    visited_positions = []
+    location = get_guard_location
+    target = get_guard_target(location)
+
+    until target == 'Escape'
+      case target
+      when '#'
+        turn_right
+      when '.'
+        new_location = guard_target_coordinates(location)
+        move_guard(location, new_location, @guard_facing)
+        location = get_guard_location
+      else
+        puts 'Escaped!'
+        return true
+      end
+
+      # Check for loop: same position and facing as before
+      current_state = [location, @guard_facing]
+      return false if visited_positions.include?(current_state)
+
+      visited_positions << current_state
+      target = get_guard_target(location)
+    end
+    true
+  end
+
 end
 
 # Example usage
@@ -202,4 +290,6 @@ if __FILE__ == $PROGRAM_NAME
   solver.load_input('day_06.txt')
   solver.track_guard
   puts "The guard visited #{solver.guard_positions.length} spots."
+  solver.detect_infinite_loops
+  puts "The guard would have entered an infinite loop at #{solver.loop_locations.length} spots."
 end

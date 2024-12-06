@@ -38,7 +38,12 @@ RSpec.describe GuardGallivant do
   end
 
   it 'Tracks the guards 41 positions before they leave' do
-    expect(solver.guard_positions.count).to eq(41)
+    expect(solver.unique_positions.count).to eq(41)
+  end
+
+  it 'Gets the correct amount of loop positions' do
+    solver.detect_infinite_loops
+    expect(solver.loop_locations.count).to eq(6)
   end
 
 end
