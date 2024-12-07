@@ -3,13 +3,25 @@ require_relative '../utilities/advent_helpers'
 # Day 7: Bridge Repair
 # Tracks the numbers in a calibration and determines if they can be evaluated to match the calibration.
 class BridgeRepair
-
   attr_reader :calibrations
+
+  # Initializes the bridge repair tracker.
+  #
+  # @return [nil]
   def initialize
     @operators = ['+','*']
     @calibrations = {}
   end
 
+  # Loads the numbers from a line into the calibrations hash.
+  # The key is the calibration, and the value is an array of numbers.
+  # The numbers are split by spaces.
+  # The calibration is split by a colon.
+  # For example, given the line '190: 10 19', the calibration is 190 and the numbers are 10 and 19.
+  #
+  # @param line [String] The line to load.
+  #
+  # @return [nil]
   def load_numbers(line)
     line_split = line.split(':')
     @calibrations[line_split[0].to_i] = line_split[1].strip.split(' ').map(&:to_i)
