@@ -44,6 +44,7 @@ RSpec.describe GuardGallivant do
   it 'Gets the correct amount of loop positions' do
     solver.detect_infinite_loops
     expect(solver.loop_locations.count).to eq(6)
+    expect(solver.loop_locations).to eq([[6, 3], [7, 6], [8, 3], [8, 1], [7, 7], [9, 7]])
   end
 
 end
