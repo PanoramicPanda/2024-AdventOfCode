@@ -66,6 +66,9 @@ class BridgeRepair
         else
           result = result.send(operator[num_index - 1], num)
         end
+        if result > calibration
+          break
+        end
       end
       return true if result == calibration
     end
