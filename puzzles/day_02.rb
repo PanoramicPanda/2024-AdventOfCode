@@ -104,7 +104,7 @@ class RedNosedReports
   # @return [nil]
   def load_input(input_file)
     @reports = []
-    AdventHelpers.load_file_and_do(input_file) do |line|
+    AdventHelpers.load_input_and_do(input_file) do |line|
       report = line.split.map(&:to_i)
       add_report(report)
     end

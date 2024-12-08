@@ -14,9 +14,7 @@ RSpec.describe BridgeRepair do
     292: 11 6 16 20
   SAMPLE_INPUT
   solver = BridgeRepair.new
-  sample_input.each_line do |line|
-    solver.load_numbers(line)
-  end
+  solver.load_input(sample_input)
 
 
   it 'loads the numbers correctly' do

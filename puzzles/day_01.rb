@@ -53,7 +53,7 @@ class HistorianHysteria
   # @param input_file [String] The name of the input file. Expected to be in the inputs directory.
   # @return [nil]
   def load_input(input_file)
-    AdventHelpers.load_file_and_do(input_file) do |line|
+    AdventHelpers.load_input_and_do(input_file) do |line|
       split_line = line.split(" ")
       @array_1 << split_line[0].to_i
       @array_2 << split_line[1].to_i

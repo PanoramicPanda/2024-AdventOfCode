@@ -211,7 +211,7 @@ class GuardGallivant
   #
   # @return [nil]
   def load_input(input)
-    AdventHelpers.load_file_and_do(input) do |line|
+    AdventHelpers.load_input_and_do(input) do |line|
       add_row(line)
     end
     save_original_map

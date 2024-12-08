@@ -97,7 +97,7 @@ class MullItOver
   # @param input_file [String] The name of the input file. Expected to be in the inputs directory.
   # @return [nil]
   def load_input(input_file)
-    AdventHelpers.load_file_and_do(input_file) do |line|
+    AdventHelpers.load_input_and_do(input_file) do |line|
       @raw_memory << line
     end
   end

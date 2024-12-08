@@ -164,7 +164,7 @@ class CeresSearch
   #
   # @return [nil]
   def load_crossword(filename)
-    AdventHelpers.load_file_and_do(filename) do |line|
+    AdventHelpers.load_input_and_do(filename) do |line|
       add_string_row(line)
     end
   end

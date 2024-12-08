@@ -91,7 +91,7 @@ class BridgeRepair
   #
   # @return [nil]
   def load_input(input)
-    AdventHelpers.load_file_and_do(input) do |line|
+    AdventHelpers.load_input_and_do(input) do |line|
       load_numbers(line)
     end
   end

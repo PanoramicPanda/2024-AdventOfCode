@@ -125,7 +125,7 @@ class PrintQueue
   #
   # @return [nil]
   def load_file(filename)
-    AdventHelpers.load_file_and_do(filename) do |line|
+    AdventHelpers.load_input_and_do(filename) do |line|
       add_to_queue(line) if line.include?(',')
       add_to_page_orders(line) if line.include?('|')
     end
