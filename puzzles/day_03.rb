@@ -9,6 +9,7 @@ class MullItOver
   #
   # @return [nil]
   def initialize
+    AdventHelpers.print_christmas_header(3, "Mull It Over")
     @muls = []
     @mul_total = 0
     @raw_memory = []
@@ -66,6 +67,7 @@ class MullItOver
   #
   # @return [nil]
   def execute_all_muls
+    Engine::Logger.action "Executing all mul commands..."
     @mul_total = 0
     @muls.each do |mul|
       @mul_total += execute_mul(mul) if mul.include?('mul')
@@ -76,6 +78,7 @@ class MullItOver
   #
   # @return [nil]
   def extract_all_muls_from_memory
+    Engine::Logger.action "Extracting all mul commands from memory..."
     @muls = []
     @raw_memory.each do |memory|
       extract_muls(memory)
@@ -86,6 +89,7 @@ class MullItOver
   #
   # @return [nil]
   def extract_only_enabled_muls_from_memory
+    Engine::Logger.action "Extracting only enabled mul commands from memory..."
     @muls = []
     @raw_memory.each do |memory|
       extract_only_enabled_muls(memory)
@@ -107,10 +111,12 @@ end
 if __FILE__ == $0
   memory = MullItOver.new
   memory.load_input("day_03.txt")
+  AdventHelpers.part_header(1)
   memory.extract_all_muls_from_memory
   memory.execute_all_muls
-  puts "Part 1 Total: #{memory.mul_total}"
+  Engine::Logger.info "Part 1 Total: [#{memory.mul_total}]"
+  AdventHelpers.part_header(2)
   memory.extract_only_enabled_muls_from_memory
   memory.execute_all_muls
-  puts "Part 2 Total: #{memory.mul_total}"
+  Engine::Logger.info "Part 2 Total: [#{memory.mul_total}]"
 end

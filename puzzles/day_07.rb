@@ -9,6 +9,7 @@ class BridgeRepair
   #
   # @return [nil]
   def initialize
+    AdventHelpers.print_christmas_header(7, 'Bridge Repair')
     @operators = ['+','*']
     @calibrations = {}
   end
@@ -82,6 +83,7 @@ class BridgeRepair
   #
   # @return [Integer] The sum of the correct evaluations.
   def sum_correct_evaluations(concat: false)
+    Engine::Logger.action "Summing the correct evaluations#{concat ? ' with concatenation' : ''}..."
     @calibrations.select { |calibration, _| can_eval?(calibration, concat: concat) }.keys.sum
   end
 
@@ -101,6 +103,8 @@ end
 if __FILE__ == $PROGRAM_NAME
   solver = BridgeRepair.new
   solver.load_input('day_07.txt')
-  puts "Sum of correct evaluations: #{solver.sum_correct_evaluations}"
-  puts "Sum of correct evaluations with concatenation: #{solver.sum_correct_evaluations(concat: true)}"
+  AdventHelpers.part_header(1)
+  Engine::Logger.info "Sum of correct evaluations: [#{solver.sum_correct_evaluations}]"
+  AdventHelpers.part_header(2)
+  Engine::Logger.info "Sum of correct evaluations with concatenation: [#{solver.sum_correct_evaluations(concat: true)}]"
 end

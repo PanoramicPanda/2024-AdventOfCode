@@ -9,6 +9,7 @@ class CeresSearch
   #
   # @return [nil]
   def initialize
+    AdventHelpers.print_christmas_header(4, 'Ceres Search')
     @grid = []
   end
 
@@ -53,6 +54,7 @@ class CeresSearch
   #
   # @return [Integer] The count of the string
   def count_of_string(string)
+    Engine::Logger.action "Searching for [#{string}]..."
     count = 0
     @grid.each_with_index do |row, row_index|
       row.each_with_index do |char, col_index|
@@ -145,6 +147,7 @@ class CeresSearch
   #
   # @return [Integer] The count of the string in an x pattern
   def count_of_x_pattern(string)
+    Engine::Logger.action "Searching for [#{string}] in an X pattern..."
     count = 0
     @grid.each_with_index do |row, row_index|
       row.each_with_index do |char, col_index|
@@ -175,6 +178,8 @@ end
 if __FILE__ == $PROGRAM_NAME
   solver = CeresSearch.new
   solver.load_crossword('day_04.txt')
-  puts "XMAS Count: #{solver.count_of_string('XMAS')}"
-  puts "X-MAS Count: #{solver.count_of_x_pattern('MAS')}"
+  AdventHelpers.part_header(1)
+  Engine::Logger.info "XMAS Count: [#{solver.count_of_string('XMAS')}]"
+  AdventHelpers.part_header(2)
+  Engine::Logger.info "X-MAS Count: [#{solver.count_of_x_pattern('MAS')}]"
 end

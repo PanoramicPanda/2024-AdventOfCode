@@ -13,6 +13,7 @@ class ResonantCollinearity
   #
   # @return [ResonantCollinearity] The ResonantCollinearity class.
   def initialize
+    AdventHelpers.print_christmas_header(8, 'Resonant Collinearity')
     @map = []
     @antinode_map = []
   end
@@ -117,6 +118,7 @@ class ResonantCollinearity
   #
   # @return [Array<Array<Array<Integer>>] An array of pairs of antennas.
   def find_antenna_pairs
+    Engine::Logger.action 'Finding antenna pairs...'
     antenna_pairs = []
     @map.each_with_index do |row, y|
       row.each_with_index do |cell, x|
@@ -137,7 +139,9 @@ class ResonantCollinearity
   #
   # @return [nil]
   def place_all_antinodes
-    find_antenna_pairs.each do |pair|
+    @antenna_pairs ||= find_antenna_pairs
+    Engine::Logger.action 'Placing antinodes...'
+    @antenna_pairs.each do |pair|
       place_antinodes(pair[0], pair[1])
     end
   end
@@ -156,7 +160,9 @@ class ResonantCollinearity
   #
   # @return [nil]
   def place_resonant_antinodes
-    find_antenna_pairs.each do |pair|
+    @antenna_pairs ||= find_antenna_pairs
+    Engine::Logger.action 'Placing resonant antinodes...'
+    @antenna_pairs.each do |pair|
       distance = find_distance(pair[0], pair[1])
       relative_position = determine_antinode_relative_position(pair[0], pair[1], distance)
       antinode_position = determine_antinode_position(pair[0], relative_position)
@@ -181,8 +187,10 @@ end
 if __FILE__ == $0
   solver = ResonantCollinearity.new
   solver.load_input('day_08.txt')
+  AdventHelpers.part_header(1)
   solver.place_all_antinodes
-  puts "Found #{solver.count_antinodes} antinodes"
+  Engine::Logger.info "Found [#{solver.count_antinodes}] antinodes"
+  AdventHelpers.part_header(2)
   solver.place_resonant_antinodes
-  puts "Found #{solver.count_antinodes} resonant antinodes"
+  Engine::Logger.info "Found [#{solver.count_antinodes}] resonant antinodes"
 end

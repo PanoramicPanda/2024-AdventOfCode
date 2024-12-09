@@ -7,6 +7,7 @@ class HistorianHysteria
 
   # Initializes a new instance of HistorianHysteria.
   def initialize
+    AdventHelpers.print_christmas_header(1, 'Historian Hysteria')
     @array_1 = []
     @array_2 = []
     @distances = []
@@ -16,6 +17,7 @@ class HistorianHysteria
   # Calculates the absolute distances between numbers at the same positions in two arrays.
   # @return [nil]
   def calculate_distances
+    Engine::Logger.action 'Calculating distances...'
     check_arrays
     sorted_array_1 = @array_1.sort
     sorted_array_2 = @array_2.sort
@@ -27,6 +29,7 @@ class HistorianHysteria
   # Calculates how many times a number in array one shows up in array two, and then multiplies it by the count.
   # @return [nil]
   def calculate_similarity_scores
+    Engine::Logger.action 'Calculating similarity scores...'
     check_arrays
     @array_1.each do |location|
       count = @array_2.count(location)
@@ -66,7 +69,7 @@ class HistorianHysteria
   # @return [nil]
   def check_arrays
     if @array_1.length != @array_2.length
-      Logger.raise 'Arrays are not the same length!'
+      Engine::Logger.fatal 'Arrays are not the same length!'
     end
   end
 end
@@ -75,6 +78,8 @@ end
 if __FILE__ == $0
   solver = HistorianHysteria.new
   solver.load_input('day_01.txt')
-  puts "The total distance is: #{solver.get_total_distance}"
-  puts "The similarity score is: #{solver.get_similarity_score}"
+  AdventHelpers.part_header(1)
+  Engine::Logger.info "The total distance is: [#{solver.get_total_distance}]"
+  AdventHelpers.part_header(2)
+  Engine::Logger.info "The similarity score is: [#{solver.get_similarity_score}]"
 end

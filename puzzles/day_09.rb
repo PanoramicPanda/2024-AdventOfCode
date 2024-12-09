@@ -7,6 +7,7 @@ class DiskFragmenter
   #
   # @return [class] The DiskFragmenter object
   def initialize
+    AdventHelpers.print_christmas_header(9, 'Disk Fragmenter')
     @disk = []
   end
 
@@ -47,6 +48,7 @@ class DiskFragmenter
   #
   # @return [nil]
   def defragment(contiguous: false)
+    Engine::Logger.action "Defragmenting the disk#{contiguous ? ' contiguously' : ''}..."
     if contiguous
       reverse_index = @disk.length - 1
 
@@ -130,8 +132,8 @@ if __FILE__ == $0
   df = DiskFragmenter.new
   df.load_input('day_09.txt')
   df.defragment
-  puts "The checksum is #{df.checksum}"
+  Engine::Logger.info "The checksum is [#{df.checksum}]"
   df.load_input('day_09.txt')
   df.defragment(contiguous: true)
-  puts "The contiguous checksum is #{df.checksum}"
+  Engine::Logger.info "The contiguous checksum is [#{df.checksum}]"
 end

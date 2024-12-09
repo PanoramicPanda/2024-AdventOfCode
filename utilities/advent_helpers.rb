@@ -153,3 +153,4 @@ module Engine
 end
 
 Engine::Logger = Engine::ColoredLogger
+Engine::Logger.level = :info

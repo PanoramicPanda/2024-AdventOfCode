@@ -8,6 +8,7 @@ class GuardGallivant
 
   # Initializes the guard tracker.
   def initialize
+    AdventHelpers.print_christmas_header(6, 'Guard Gallivant')
     @map = []
     @original_map = []
     @guard_facing = '^'
@@ -182,6 +183,7 @@ class GuardGallivant
   #
   # @return [nil]
   def track_guard
+    Engine::Logger.action 'Tracking the guard...'
     location = get_guard_location # Initialize tracking
     target = get_guard_target(location)
     until target == 'Escape'
@@ -230,6 +232,7 @@ class GuardGallivant
   #
   # @return [nil]
   def detect_infinite_loops
+    Engine::Logger.action 'Looking for places to place obstacles to create infinite loops...'
     @guard_positions.each_with_index do |(position, facing), index|
       next_position = @guard_positions[index + 1]&.first
       next unless next_position && @original_map[next_position[0]][next_position[1]] == '.'
@@ -295,8 +298,10 @@ end
 if __FILE__ == $PROGRAM_NAME
   solver = GuardGallivant.new
   solver.load_input('day_06.txt')
+  AdventHelpers.part_header(1)
   solver.track_guard
-  puts "The guard visited #{solver.unique_positions.length} spots."
+  Engine::Logger.info "The guard visited [#{solver.unique_positions.length}] spots"
+  AdventHelpers.part_header(2)
   solver.detect_infinite_loops
-  puts "The guard would have entered an infinite loop with a new obstacle at #{solver.loop_locations.length} spots."
+  Engine::Logger.info "The guard would have entered an infinite loop with a new obstacle at [#{solver.loop_locations.length}] spots"
 end

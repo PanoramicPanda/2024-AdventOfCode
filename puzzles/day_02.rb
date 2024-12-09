@@ -8,6 +8,7 @@ class RedNosedReports
   #
   # @return [nil]
   def initialize
+    AdventHelpers.print_christmas_header(2, "Red Nosed Reports")
     @reports = []
     @safe_reports = []
     @unsafe_reports = []
@@ -26,6 +27,7 @@ class RedNosedReports
   #
   # @return [nil]
   def load_initial_reports
+    Engine::Logger.action 'Loading initial reports...'
     @safe_reports = []
     @unsafe_reports = []
     @reports.each do |report|
@@ -71,6 +73,7 @@ class RedNosedReports
   #
   # @return [nil]
   def dampen_unsafe_reports
+    Engine::Logger.action 'Dampening unsafe reports...'
     @unsafe_reports.each do |report|
       report.each_with_index do |number, index|
         new_report = report.dup
@@ -95,7 +98,7 @@ class RedNosedReports
   #
   # @return [nil]
   def report_safe_report_count
-    puts "Safe reports: #{safe_report_count}"
+    Engine::Logger.info "Safe reports: [#{safe_report_count}]"
   end
 
   # Loads the input file, and adds each report to the reports array.
@@ -116,8 +119,10 @@ end
 if __FILE__ == $0
   red_nosed_reports = RedNosedReports.new
   red_nosed_reports.load_input("day_02.txt")
+  AdventHelpers.part_header(1)
   red_nosed_reports.load_initial_reports
   red_nosed_reports.report_safe_report_count
+  AdventHelpers.part_header(2)
   red_nosed_reports.dampen_unsafe_reports
   red_nosed_reports.report_safe_report_count
 end

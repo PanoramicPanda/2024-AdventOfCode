@@ -11,6 +11,7 @@ class PrintQueue
   #
   # @return [nil]
   def initialize
+    AdventHelpers.print_christmas_header(5, 'Print Queue')
     @queue = []
     @page_orders = []
     @correct_orders = []
@@ -71,6 +72,7 @@ class PrintQueue
   #
   # @return [nil]
   def sort_orders_by_correctness
+    Engine::Logger.action 'Sorting print jobs by correctness...'
     @queue.each do |print_job|
       if check_correct_order(print_job)
         @correct_orders << print_job
@@ -93,6 +95,7 @@ class PrintQueue
   #
   # @return [Integer] The total of the middle page numbers
   def get_middle_page_total_for_order(print_job)
+    Engine::Logger.action 'Calculating total of middle page numbers...'
     middle_pages = 0
     print_job.each do |job|
       middle_pages += get_middle_page(job)
@@ -105,6 +108,7 @@ class PrintQueue
   #
   # @return [nil]
   def resort_incorrect_orders
+    Engine::Logger.action 'Resorting incorrect print jobs...'
     @incorrect_orders.each_with_index do |print_job|
       until check_correct_order(print_job)
         print_job.each_with_index do |page_number, page_index|
@@ -136,8 +140,10 @@ end
 if __FILE__ == $PROGRAM_NAME
   pq = PrintQueue.new
   pq.load_file('day_05.txt')
+  AdventHelpers.part_header(1)
   pq.sort_orders_by_correctness
-  puts "Total for correct middle pages: #{pq.get_middle_page_total_for_order(pq.correct_orders)}"
+  Engine::Logger.info "Total for correct middle pages: [#{pq.get_middle_page_total_for_order(pq.correct_orders)}]"
+  AdventHelpers.part_header(2)
   pq.resort_incorrect_orders
-  puts "Total for re-corrected middle pages: #{pq.get_middle_page_total_for_order(pq.incorrect_orders)}"
+  Engine::Logger.info "Total for re-corrected middle pages: [#{pq.get_middle_page_total_for_order(pq.incorrect_orders)}]"
 end
