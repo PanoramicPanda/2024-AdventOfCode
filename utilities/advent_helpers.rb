@@ -33,11 +33,15 @@ module AdventHelpers
     Engine::Logger.header { "*" * width }
     Engine::Logger.header { "~~~ 2024 Advent of Code ~~~".center(width) }
     Engine::Logger.header { "*" * width }
-    Engine::Logger.header { ("[Day #{day.to_s.rjust(2, '0')}]").center(width) }
-    Engine::Logger.header { "[#{puzzle_name.center(width)}]" }
+    Engine::Logger.header { '*' + ("[Day #{day.to_s.rjust(2, '0')}]").center(width) + '*' }
+    Engine::Logger.header { '*' + ("[#{puzzle_name}]").center(width) + '*' }
     Engine::Logger.header { "*" * width }
     Engine::Logger.header { "*        Merry Coding!       *".center(width) }
     Engine::Logger.header { "*" * width }
+  end
+
+  def self.part_header(part)
+    Engine::Logger.header { '*' + ("[Part #{part}]").center(30) + '*' }
   end
 
 
