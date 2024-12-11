@@ -1,3 +1,5 @@
+require_relative '../utilities/advent_helpers'
+
 class Template
   def initialize
     AdventHelpers.print_christmas_header(10, 'Hoof It')
