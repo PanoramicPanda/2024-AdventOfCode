@@ -65,6 +65,7 @@ class PlutonianPebbles
   #
   # @return [nil]
   def blink(times = 1)
+    time = Time.now
     Engine::Logger.action "Blinking [#{times}] times..."
     times.times do |i|
       @new_stones = @stones.dup
@@ -73,6 +74,11 @@ class PlutonianPebbles
       end
       @stones = @new_stones
     end
+    # Get time difference in milliseconds with 3 decimal places
+    time_diff = ((Time.now - time) * 1000).round(3)
+    Engine::Logger.info "Blinking took [#{time_diff}] milliseconds."
+
+
   end
 
   # Perform the blink on a single stone.
