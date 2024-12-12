@@ -57,13 +57,13 @@ RSpec.describe GardenGroups do
 
   it 'can bulk price the new garden' do
     example = <<-EXAMPLE
-AAAAAA
-AAABBA
-AAABBA
-ABBAAA
-ABBAAA
-AAAAAA
-  EXAMPLE
+        AAAAAA
+        AAABBA
+        AAABBA
+        ABBAAA
+        ABBAAA
+        AAAAAA
+    EXAMPLE
     solver = GardenGroups.new
     solver.load_input(example)
     solver.create_region_map
