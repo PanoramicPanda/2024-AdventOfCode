@@ -18,6 +18,6 @@ class Template
 end
 
 if __FILE__ == $PROGRAM_NAME
-  t = Template.new
-  t.load_input('input/puzzle_input.txt')
+  solver = Template.new
+  solver.load_input('day_XX.txt')
 end
