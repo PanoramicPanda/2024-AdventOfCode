@@ -43,7 +43,7 @@ class RestroomRedoubt
   #
   # @return [nil]
   def move_drones(times)
-    Engine::Logger.action "Moving drones #{times} times..."
+    Engine::Logger.action "Moving drones [#{times}] times..."
     times.times do
       @drones.each do |drone|
         drone.move
@@ -98,7 +98,7 @@ class RestroomRedoubt
   #
   # @return [nil]
   def move_and_print_drones(times)
-    Engine::Logger.action "Moving drones #{times} times and generating images each time..."
+    Engine::Logger.action "Moving drones [#{times}] times and generating images each time..."
     start_time = Time.now
     times.times do |time|
       @drones.each do |drone|
@@ -107,7 +107,7 @@ class RestroomRedoubt
       form_drones_as_grid_image(time)
     end
     end_time = Time.now
-    Engine::Logger.info "Time taken: #{end_time - start_time} seconds"
+    Engine::Logger.info "Time taken: [#{end_time - start_time}] seconds"
   end
 
   # Generates an image of the drone positions at the given time.
@@ -214,7 +214,7 @@ if __FILE__ == $PROGRAM_NAME
   solver = RestroomRedoubt.new(101, 103)
   solver.load_input('day_14.txt')
   solver.move_drones(100)
-  Engine::Logger.info "The safety score is #{solver.calculate_safety_score}"
+  Engine::Logger.info "The safety score is [#{solver.calculate_safety_score}]"
   # solver.load_input('day_14.txt')
   # solver.move_and_print_drones(10000)
 end
